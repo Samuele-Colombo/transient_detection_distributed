@@ -12,7 +12,7 @@ Once you cloned the repository, access its directory. In the virtual environment
 python install_requirements.py
 ```
 
-This should install all requirements contained in `requirements.txt` through `pip`, handling the non-standard installation process for `pytorch_geometric` and associated packages. Notice that, if you want to include more options to `pip` you can by simpy appending such options to the commandline. As example, if you want to execute a dry run you may add the opportune option
+This should install all requirements contained in [requirements.txt](requirements.txt) through `pip`, handling the non-standard installation process for `pytorch_geometric` and associated packages. Notice that, if you want to include more options to `pip` you can by simpy appending such options to the commandline. As example, if you want to execute a dry run you may add the opportune option
 
 ```bash
 python install_requirements.py --dry run
@@ -50,10 +50,10 @@ Some settings, such as `dataset` and `model`, should not be changed unless you a
 This package follows a modular approach where the main components of the code (architecture, loss, scheduler, trainer, etc.) are organized into subdirectories.
 
 - The [train.py](train.py) script contains all the arguments (parsed by argparse) and nodes/GPUS initializer (slurm or local). It also contains code for importing the dataset, model, loss function and passing them to the trainer function.
-- The lib/trainer/trainer.py script defines the details of the training procedure.
-- The lib/dataset/[args.dataset].py imports data and defines the dataset function. Creating a data directory with a soft link to the dataset is recommended.
-- The lib/core/ directory contains definitions for loss, optimizer, scheduler functions.
-- The lib/util/ directory contains helper functions organized by file name. (i.e., helper functions for distributed training are placed in the lib/util/distributed.py file).
+- The [lib/trainer/trainer.py](lib/trainer/trainer.py) script defines the details of the training procedure.
+- The [lib/dataset/[args.dataset].py](lib/datasets/) imports data and defines the dataset function. Creating a data directory with a soft link to the dataset is recommended.
+- The [lib/core/](lib/core/) directory contains definitions for loss, optimizer, scheduler functions.
+- The [lib/utils/](lib/utils/) directory contains helper functions organized by file name. (i.e., helper functions for distributed training are placed in the lib/util/distributed.py file).
 
 ## Run
 
@@ -87,12 +87,12 @@ python train.py -slurm -slurm_nnodes 2 -slurm_ngpus 8  -slurm_partition general
 
 ## Tips
 
-- To get more information about available arguments, run: ```python train.py -h```
-- To automatically start Tensorboard server as a different thread, add the argument: ``` -tb ```
-- To overwrite model log files and start from scratch, add the argument: ``` -reset ```; otherwise, it will use the last weights as a checkpoint and continue writing to the same Tensorboard log files - if the same model name is used.
-- To choose specific node names on SLURM, use the argument: ``` -slurm_nodelist GPU17,GPU18 ``` as an example. 
-- If running on a GPU with Tensor cores, using mixed precision models can speed up your training. Add the argument ``` -fp16 ``` to try it out. If it makes training unstable due to the loss of precision, don't use it :)
-- The stdout and stderr will be printed in the shared directory. We only print the first GPU output. Make sure to change the shared directory in lib/utils/distributed.py depending on the cluster you are using.
+- To get more information about available arguments, run: ```python train.py -h```;
+- To automatically start Tensorboard server as a different thread, add the argument: ``` -tb ```;
+- To overwrite model log files and start from scratch, add the argument: ``` -reset ```; otherwise, it will use the last weights as a checkpoint and continue writing to the same Tensorboard log files - if the same model name is used;
+- To choose specific node names on SLURM, use the argument: ``` -slurm_nodelist GPU17,GPU18 ``` as an example;
+- If running on a GPU with Tensor cores, using mixed precision models can speed up your training. Add the argument ``` -fp16 ``` to try it out. If it makes training unstable due to the loss of precision, don't use it;
+- The stdout and stderr will be printed in the shared directory. We only print the first GPU output. Make sure to change the shared directory in [lib/utils/distributed.py](lib/utils/distributed.py) depending on the cluster you are using;
 - if you find a bug in this package, open a new issue or a pull request. Any collaboration is more than welcome!
 
 ## License
