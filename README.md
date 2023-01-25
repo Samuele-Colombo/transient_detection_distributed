@@ -92,7 +92,7 @@ python train.py -slurm -slurm_nnodes 2 -slurm_ngpus 8  -slurm_partition general
 - To overwrite model log files and start from scratch, add the argument: ``` -reset ```; otherwise, it will use the last weights as a checkpoint and continue writing to the same Tensorboard log files - if the same model name is used;
 - To choose specific node names on SLURM, use the argument: ``` -slurm_nodelist GPU17,GPU18 ``` as an example;
 - If running on a GPU with Tensor cores, using mixed precision models can speed up your training. Add the argument ``` -fp16 ``` to try it out. If it makes training unstable due to the loss of precision, don't use it;
-- The stdout and stderr will be printed in the shared directory. We only print the first GPU output. Make sure to change the shared directory in [lib/utils/distributed.py](lib/utils/distributed.py) depending on the cluster you are using;
+- The stdout and stderr will be printed in the out directory. We only print the first GPU output. Make sure to change the out directory in the config file depending on the cluster you are using;
 - if you find a bug in this package, open a new issue or a pull request. Any collaboration is more than welcome!
 
 ## License

@@ -127,19 +127,31 @@ def main():
     if args.slurm:
 
         # Almost copy-paste from https://github.com/facebookresearch/deit/blob/main/run_with_submitit.py
-        args.output_dir = get_shared_folder() / "%j"
+        args.output_dir = get_shared_folder(args) / "%j"
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
         executor = submitit.AutoExecutor(folder=args.output_dir, slurm_max_num_timeout=30)
 
-        executor.update_parameters(
-            mem_gb=12*args.slurm_ngpus,
-            gpus_per_node=args.slurm_ngpus,
-            tasks_per_node=args.slurm_ngpus,
-            cpus_per_task=2,
-            nodes=args.slurm_nnodes,
-            timeout_min=2800,
-            slurm_partition=args.slurm_partition
-        )
+        if hasattr(args, "slurm_account"):
+            executor.update_parameters(
+                mem_gb=12*args.slurm_ngpus,
+                gpus_per_node=args.slurm_ngpus,
+                tasks_per_node=args.slurm_ngpus,
+                cpus_per_task=2,
+                nodes=args.slurm_nnodes,
+                timeout_min=2800,
+                slurm_partition=args.slurm_partition,
+                account=args.slurm_account
+            )
+        else:
+            executor.update_parameters(
+                mem_gb=12*args.slurm_ngpus,
+                gpus_per_node=args.slurm_ngpus,
+                tasks_per_node=args.slurm_ngpus,
+                cpus_per_task=2,
+                nodes=args.slurm_nnodes,
+                timeout_min=2800,
+                slurm_partition=args.slurm_partition
+            )
 
         if args.slurm_nodelist:
             executor.update_parameters(slurm_additional_parameters = {"nodelist": f'{args.slurm_nodelist}' })

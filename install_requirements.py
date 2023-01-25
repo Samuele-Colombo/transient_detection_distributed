@@ -71,7 +71,11 @@ def main():
     this_version = torch.__version__
     pytorch_major_version, pytorch_minor_version, pytorch_patch_version = \
         this_version.split("+")[0].split(".")
-    pytorch_cuda_version = this_version.split("+")[1]
+    try:
+        pytorch_cuda_version = this_version.split("+")[1]
+    except IndexError:
+        pytorch_cuda_version = "cpu"
+        this_version = "+".join([this_version, pytorch_cuda_version])
 
     while int(pytorch_patch_version) >= 0:
         pygwheel_url = "https://data.pyg.org/whl/torch-{}.html".format(this_version)

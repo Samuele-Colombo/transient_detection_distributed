@@ -53,13 +53,11 @@ def fix_random_seeds(seed=31):
     torch.cuda.manual_seed_all(seed)
     np.random.seed(seed)
 
-def get_shared_folder() -> Path:
-    user = os.getenv("USER")
-    if Path("/data/sarkar-vision/slurm_jobs/").is_dir():
-        p = Path(f"/data/sarkar-vision/slurm_jobs/{user}")
-        p.mkdir(exist_ok=True)
+def get_shared_folder(args) -> Path:
+    p = Path(args.out)
+    if p.is_dir():
         return p
-    raise RuntimeError("No shared folder available")
+    raise RuntimeError(f"No valid out folder available, got {args.out}.")
 
 
 def init_dist_node(args):

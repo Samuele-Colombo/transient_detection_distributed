@@ -79,10 +79,14 @@ class SimTransientDataset(Dataset):
     """
     A dataset for loading and interacting with data stored in PyTorch files.
 
-    Args:
-        root (str): The root directory of the dataset.
-        pattern (str, optional): A glob pattern to match file names. Defaults to '*EVLF000.FTZ*'.
-        transform (callable, optional): A function/transform to apply to the data. Defaults to None.
+    Parameters
+    ----------
+    root : str
+        The root directory of the dataset.
+    pattern : str, optional
+        A glob pattern to match file names. Defaults to '*EVLF000.FTZ*'.
+    transform : callable, optional
+        A function/transform to apply to the data. Defaults to None.
     """
     def __init__(self, root, pattern='*EVLF000.FTZ*', transform=None):
         super().__init__(root=root, transform=transform)

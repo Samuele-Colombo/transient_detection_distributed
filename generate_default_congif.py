@@ -38,7 +38,7 @@ def main():
     - these
     - are
     - the
-    - keys  # Columns to be used as data features
+    - keys  # Columns to be used as data features, last three must be the position features
   Architecture:
     arch: 'mlp'  # Architecture to choose
   Trainer:
@@ -53,6 +53,7 @@ def main():
     lr_warmup: 10  # Learning rate warmup
   SLURM:
     slurm: true  # Use slurm
+    # slurm_account:  # Account to be used by slurm, comment if not necessary
     slurm_ngpus: 8  # Number of gpus per node
     slurm_nnodes: 2  # Number of nodes
     # slurm_nodelist: # Node list, comment if not specified
